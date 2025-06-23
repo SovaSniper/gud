@@ -32,7 +32,9 @@ export function Sidebar() {
                 <span>Settings</span>
             </Link>
 
-            <Button onClick={() => signOut()}>
+            <Button onClick={() => signOut({
+                callbackUrl: "https://gitgud.polearn.xyz/"
+            })}>
                 Sign out
             </Button>
         </div>

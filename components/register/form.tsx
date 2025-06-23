@@ -136,7 +136,6 @@ export function ProfileForm() {
                     {step === 0 && (
                         <>
                             <FormEmail form={form} />
-                            <FormPassword form={form} />
                         </>
                     )}
                     {step === 1 && (

@@ -29,6 +29,8 @@ enum AuthEmailSteps {
 
 export function AuthEmail({ }: React.HTMLAttributes<HTMLDivElement>) {
     const router = useRouter();
+    const [isLoading, setIsLoading] = useState(false)
+
     const [step, setStep] = useState(AuthEmailSteps.EMAIL)
     const totalSteps = 2
 
@@ -41,23 +43,24 @@ export function AuthEmail({ }: React.HTMLAttributes<HTMLDivElement>) {
     })
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        console.log(values)
-        // const result = await login({
-        //     email: values.email,
-        //     password: values.password
-        // })
-        const result = await signIn("credentials", {
-            email: values.email,
-            password: values.password,
-            redirect: false,
-        });
-        console.log(result)
+        try {
+            setIsLoading(true)
+            const result = await signIn("credentials", {
+                email: values.email,
+                password: values.password,
+                redirect: false,
+            });
 
-        if (result?.ok && !result?.error) {
-            console.log("Logging in")
-            router.push("/app/home")
-        } else {
-            form.setError("password", { message: result?.error || "Please try again later" })
+            if (result?.ok && !result?.error) {
+                console.log("Logging in")
+                router.push("/app/home")
+            } else {
+                form.setError("password", { message: result?.error || "Please try again later" })
+            }
+        } catch (e: any) {
+
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -86,8 +89,8 @@ export function AuthEmail({ }: React.HTMLAttributes<HTMLDivElement>) {
                     <FormPassword form={form} />
                 )}
                 {step !== (totalSteps - 1)
-                    ? <Button type="button" onClick={onNext}>Sign In with Email</Button>
-                    : <Button type="submit">Submit</Button>
+                    ? <Button type="button" onClick={onNext}>Next</Button>
+                    : <Button type="submit" disabled={isLoading}>Git Log In</Button>
                 }
             </form>
         </Form>

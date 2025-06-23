@@ -1,6 +1,5 @@
 "use client"
 
-import { signIn } from "next-auth/react";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 
@@ -9,9 +8,10 @@ export function PageHome({ }: React.HTMLAttributes<HTMLDivElement>) {
 
     return (
         <div>
-            <div>App HomePage</div>
+            <div className="text-center text-xl my-2">Git GUD</div>
 
             <Button onClick={() => router.push("/auth")}>Sign in</Button>
+            <Button onClick={() => router.push("/register")}>Register</Button>
         </div>
     )
 }
