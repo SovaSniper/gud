@@ -25,7 +25,7 @@ export interface User {
   /**
    * Securely hashed password
    */
-  hashedPassword: string;
+  password: string;
 
   /**
    * Optional short biography or profile description

@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
         email: registration.email,
         firstName: registration.firstname,
         surname: registration.surname,
-        hashedPassword,
+        password,
         createdAt: new Date()
     }
     const db = new UserDatabase()
