@@ -9,7 +9,6 @@ export async function POST(request: NextRequest) {
     const db = new UserDatabase()
     const user = await db.getUserByEmail(email)
 
-    // const hashedPassword = await hash(password, 12);
     const match = await bcrypt.compare(password, user.password);
     if (!match) throw new Error("Invalid credentials");
 
