@@ -24,11 +24,12 @@ export const authOptions: AuthOptions = {
                     throw new Error("Invalid email or password");
                 }
 
+                console.log(user)
                 return {
                     id: user._id.toString(),
                     handler: user.handler,
                     email: user.email,
-                    name: user.firstname.toString(),
+                    name: user.firstName.toString(),
                 };
             },
         }),
