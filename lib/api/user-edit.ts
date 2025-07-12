@@ -8,10 +8,10 @@ export interface UserEditResponse {
     result: boolean;
 }
 
-export const userEdit = async (registration: UserEditRequest): Promise<UserEditResponse> => {
+export const userEdit = async (request: UserEditRequest): Promise<UserEditResponse> => {
     const response = await fetch(`/api/user/edit`, {
         method: "POST",
-        body: JSON.stringify(registration),
+        body: JSON.stringify(request),
     })
 
     return response.json()

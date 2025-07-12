@@ -7,18 +7,24 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { REGISTER_FORM_FIRSTNAME, RegisterFormComponentProps } from "./constants"
+import { CreateFormData } from "."
 
-export function FormFirstname({ form }: RegisterFormComponentProps) {
+interface FormTitleProps extends React.HTMLAttributes<HTMLDivElement> {
+    form: UseFormReturn<CreateFormData>
+}
+
+export function FormTitle({ form }: FormTitleProps) {
     return (
         <FormField
             control={form.control}
-            name={REGISTER_FORM_FIRSTNAME}
+            name="title"
             render={({ field }) => (
                 <FormItem>
-                    <FormLabel>Username</FormLabel>
                     <FormControl>
-                        <Input {...field} />
+                        <Input
+                            className="!border-none p-0 !text-2xl !font-semibold"
+                            placeholder="Event Name"
+                            {...field} />
                     </FormControl>
                     <FormMessage />
                 </FormItem>

@@ -8,10 +8,10 @@ export interface UserLoginResponse {
     password: string;
 }
 
-export const login = async (registration: UserLoginRequest): Promise<UserLoginResponse> => {
+export const login = async (request: UserLoginRequest): Promise<UserLoginResponse> => {
     const response = await fetch(`/api/user/login`, {
         method: "POST",
-        body: JSON.stringify(registration),
+        body: JSON.stringify(request),
     })
 
     return response.json()

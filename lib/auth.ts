@@ -1,10 +1,10 @@
-import { SessionStrategy } from "next-auth";
+import { AuthOptions, SessionStrategy } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import clientPromise from "@/lib/database/mongodb";
 import { compare } from "bcryptjs";
 
-export const authOptions = {
+export const authOptions: AuthOptions = {
     adapter: MongoDBAdapter(clientPromise),
     providers: [
         CredentialsProvider({
@@ -26,12 +26,30 @@ export const authOptions = {
 
                 return {
                     id: user._id.toString(),
+                    handler: user.handler,
                     email: user.email,
-                    name: user.firstname,
+                    name: user.firstname.toString(),
                 };
             },
         }),
     ],
+    callbacks: {
+        async jwt({ token, user }) {
+            if (user) {
+                token.id = user.id;
+                token.handler = user.handler;
+            }
+            return token;
+        },
+        async session({ session, token }) {
+            if (session.user) {
+                session.user.id = token.id as string;
+                session.user.handler = token.handler as string;
+            }
+            return session;
+        },
+    },
+
     session: {
         strategy: "jwt" as SessionStrategy,
     },

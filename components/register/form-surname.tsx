@@ -1,4 +1,3 @@
-import { UseFormReturn } from "react-hook-form"
 import {
     FormControl,
     FormField,
@@ -7,17 +6,13 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { RegisterFormData } from "./form"
+import { REGISTER_FORM_SURNAME, RegisterFormComponentProps } from "./constants"
 
-interface FormSurnameProps extends React.HTMLAttributes<HTMLDivElement> {
-    form: UseFormReturn<RegisterFormData>
-}
-
-export function FormSurname({ form }: FormSurnameProps) {
+export function FormSurname({ form }: RegisterFormComponentProps) {
     return (
         <FormField
             control={form.control}
-            name="surname"
+            name={REGISTER_FORM_SURNAME}
             render={({ field }) => (
                 <FormItem>
                     <FormLabel>Surname</FormLabel>

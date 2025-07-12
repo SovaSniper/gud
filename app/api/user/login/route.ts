@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
     const { email, password }: UserLoginRequest = await request.json()
 
     const db = new UserDatabase()
-    const user = await db.getUser(email)
+    const user = await db.getUserByEmail(email)
 
     // const hashedPassword = await hash(password, 12);
     const match = await bcrypt.compare(password, user.password);

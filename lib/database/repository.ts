@@ -1,4 +1,6 @@
-import { MongoClient, ServerApiVersion } from "mongodb";
+import { MongoClient, ServerApiVersion, WithId } from "mongodb";
+import { User } from "../models/user";
+import { Event } from "../models/event";
 
 export class DatabaseRepository {
     public client: MongoClient
@@ -11,8 +13,6 @@ export class DatabaseRepository {
                 deprecationErrors: true,
             }
         });
-
-        console.log(this.client)
     }
 
     async context() {
@@ -32,9 +32,9 @@ export class DatabaseRepository {
         }
     }
 
-    async storeUser(userData: any) {
+    async storeUser(userData: User) {
         const db = await this.context();
-        const users = db.collection("users");
+        const users = db.collection<User>("users");
 
         const existing = await users.findOne({ email: userData.email });
         if (existing) throw new Error("Email already registered");
@@ -47,7 +47,17 @@ export class DatabaseRepository {
         return result.insertedId;
     }
 
-    async getUser(email: string) {
+    async getUser(handler: string): Promise<WithId<User> | null> {
+        const db = await this.context();
+        const users = db.collection<User>("users");
+
+        const result = await users.findOne({ handler });
+        if (!result) return null;
+
+        return result
+    }
+
+    async getUserByEmail(email: string) {
         const db = await this.context();
         const users = db.collection("users");
 
@@ -57,11 +67,46 @@ export class DatabaseRepository {
         return user
     }
 
-    async emailExists(email: string): Promise<boolean> {
+    async emailExists(email: string, handler: string): Promise<{ emailExist: boolean, handlerExist: boolean }> {
         const db = await this.context();
         const users = db.collection("users");
 
-        const user = await users.findOne({ email });
-        return !!user;
+        const matches = await users.find({
+            $or: [{ email }, { handler }]
+        }).toArray();
+
+        let emailExist = false;
+        let handlerExist = false;
+
+        for (const user of matches) {
+            if (user.email === email) emailExist = true;
+            if (user.handler === handler) handlerExist = true;
+        }
+
+        return { emailExist, handlerExist };
+    }
+
+    async storeEvent(email: Event) {
+        const db = await this.context();
+        const events = db.collection<Event>("events");
+
+        const result = await events.insertOne({
+            ...email,
+            createdAt: new Date(),
+        });
+
+        return result.insertedId;
+    }
+
+    async getPublicEventsByCreator(creatorId: string) {
+        const db = await this.context();
+        const events = db.collection<Event>("events");
+
+        const results = await events.find({
+            creatorId,
+            visibility: "PUBLIC",
+        }).toArray();
+
+        return results;
     }
 } 

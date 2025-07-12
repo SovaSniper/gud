@@ -1,4 +1,4 @@
-import { FormCard } from "@/components/register/form-card";
+import { FormCard } from "@/components/register";
 
 export default function Home() {
     return (

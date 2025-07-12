@@ -2,25 +2,25 @@ import {
     FormControl,
     FormField,
     FormItem,
-    FormLabel,
     FormMessage,
 } from "@/components/ui/form"
-import { Input } from "../ui/input"
-import { REGISTER_FORM_PASSWORD, RegisterFormComponentProps } from "./constants"
+import { Input } from "@/components/ui/input"
+import { REGISTER_FORM_HANDLER, RegisterFormComponentProps } from "./constants"
+import { AtSign } from "lucide-react"
 
-export function FormPassword({ form }: RegisterFormComponentProps) {
+export function FormHandler({ form }: RegisterFormComponentProps) {
     return (
         <FormField
             control={form.control}
-            name={REGISTER_FORM_PASSWORD}
+            name={REGISTER_FORM_HANDLER}
             render={({ field }) => (
                 <FormItem>
-                    <FormLabel>Password</FormLabel>
                     <FormControl>
                         <Input
-                            type="password"
-                            placeholder="Enter password"
+                            leftIcon={<AtSign />}
+                            placeholder="Handler"
                             {...field}
+                            className="pl-10"
                         />
                     </FormControl>
                     <FormMessage />

@@ -10,45 +10,41 @@ import {
 import { FormFirstname } from "./form-firstname"
 import { FormSurname } from "./form-surname"
 import { FormEmail } from "./form-email"
-import { UserGender } from "@/lib/models/user-gender"
-import { FormGender } from "./form-gender"
 import { FormPassword } from "./form-password"
-import { FormDOB } from "./form-dob"
 import { useEffect, useState } from "react"
-import { register } from "@/lib/api/user-register"
+import { register } from "@/lib/api/user/register"
 import { verifyEmail } from "@/lib/api/auth-email"
 import { useRouter } from "next/navigation"
+import { FormHandler } from "./form-handler"
+import {
+    REGISTER_FORM_EMAIL,
+    REGISTER_FORM_FIRSTNAME,
+    REGISTER_FORM_HANDLER,
+    REGISTER_FORM_PASSWORD,
+    REGISTER_FORM_SURNAME
+} from "./constants"
 
 const formSchema = z.object({
-    firstname: z.string().min(2, {
-        message: "First name must be at least 2 characters.",
-    }),
-    surname: z.string().min(2, {
-        message: "Surname must be at least 2 characters.",
-    }),
-    email: z.string().email({
+    [REGISTER_FORM_EMAIL]: z.string().email({
         message: "Please enter a valid email address.",
     }),
-    gender: z.enum([UserGender.MALE, UserGender.FEMALE, UserGender.NON_BINARY, UserGender.OTHER], {
-        message: "Please select a valid gender.",
+    [REGISTER_FORM_HANDLER]: z.string()
+        .min(3, {
+            message: "First name must be at least 2 characters.",
+        })
+        .regex(/^[a-zA-Z0-9]+$/, {
+            message: "Handler can only contain letters and numbers (no spaces or symbols).",
+        }),
+    [REGISTER_FORM_FIRSTNAME]: z.string().min(2, {
+        message: "First name must be at least 2 characters.",
     }),
-    dob: z.coerce.date({
-        required_error: "Date of birth is required.",
-        invalid_type_error: "Invalid date format.",
+    [REGISTER_FORM_SURNAME]: z.string().min(2, {
+        message: "Surname must be at least 2 characters.",
     }),
-    password: z.string().min(6, {
+    [REGISTER_FORM_PASSWORD]: z.string().min(6, {
         message: "Password must be at least 6 characters.",
     }),
 })
-    .refine((data) => {
-        if (!data.dob) return true;
-        const today = new Date();
-        const age = today.getFullYear() - data?.dob!.getFullYear();
-        return age >= 18;
-    }, {
-        message: "You must be at least 18 years old.",
-        path: ["dob"],
-    })
 
 export type RegisterFormData = z.infer<typeof formSchema>;
 
@@ -61,6 +57,7 @@ export function ProfileForm() {
     const form: UseFormReturn<RegisterFormData> = useForm<RegisterFormData>({
         resolver: zodResolver(formSchema),
         defaultValues: {
+            handler: "",
             firstname: "",
             surname: "",
             email: "",
@@ -72,15 +69,14 @@ export function ProfileForm() {
         try {
             setIsLoading(true)
             const result = await register({
+                handler: values.handler,
+                email: values.email,
                 firstname: values.firstname,
                 surname: values.surname,
                 password: values.password,
-                dob: values.dob,
-                gender: values.gender.toString(),
-                email: values.email
             })
 
-            if (result.email) {
+            if (result.handler) {
                 router.push("/app/home")
             }
         } catch {
@@ -93,24 +89,28 @@ export function ProfileForm() {
     const onNext = async (event: React.MouseEvent<HTMLElement>) => {
         event.preventDefault()
         if (step === 0) {
-            const valid = await form.trigger(["email"])
+            const valid = await form.trigger([REGISTER_FORM_EMAIL, REGISTER_FORM_HANDLER])
             if (valid) {
                 // Check if new email
-                const email = form.getValues("email");
-                const result = await verifyEmail({ value: email })
-                if (!result.available) {
-                    form.setError("email", { message: "Please try different email" })
-                } else {
-                    setStep(step + 1)
+                const [email, handler] = form.getValues([REGISTER_FORM_EMAIL, REGISTER_FORM_HANDLER]);
+                const result = await verifyEmail({ email, handler })
+                if (!result.isUserNameAvailable) {
+                    form.setError(REGISTER_FORM_EMAIL, { message: "Please try different email" })
                 }
+
+                if (!result.isUserNameAvailable) {
+                    form.setError(REGISTER_FORM_HANDLER, { message: "Please try different handler" })
+                }
+
+                setStep(step + 1)
             }
         } else if (step === 1) {
-            const valid = await form.trigger(["firstname", "surname", "gender", "dob"])
+            const valid = await form.trigger([REGISTER_FORM_FIRSTNAME, REGISTER_FORM_SURNAME])
             if (valid) {
                 setStep(step + 1)
             }
         } else if (step === 2) {
-            const valid = await form.trigger(["password"])
+            const valid = await form.trigger([REGISTER_FORM_PASSWORD])
             if (valid) {
                 setStep(step + 1)
             }
@@ -136,14 +136,13 @@ export function ProfileForm() {
                     {step === 0 && (
                         <>
                             <FormEmail form={form} />
+                            <FormHandler form={form} />
                         </>
                     )}
                     {step === 1 && (
                         <>
                             <FormFirstname form={form} />
                             <FormSurname form={form} />
-                            <FormGender form={form} />
-                            <FormDOB form={form} />
                         </>
                     )}
                     {step === 2 && (
