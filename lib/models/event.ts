@@ -1,5 +1,6 @@
 export interface Event {
-    sharableId: string;         // Used for get and share. NanoId        
+    sharableId: string;         // Used for get and share. NanoId    
+    imageId?: string;            // id reference from image storage    
     creatorId: string;
     title: string;
     description?: string;

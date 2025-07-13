@@ -12,10 +12,18 @@ export interface EventCreateResponse {
     id: string;
 }
 
-export const eventCreate = async (request: EventCreateRequest): Promise<EventCreateResponse> => {
+export const eventCreate = async (request: EventCreateRequest, image?: File): Promise<EventCreateResponse> => {
+    const formData = new FormData()
+
+    if (image) {
+        formData.append('image', image)
+    }
+
+    formData.append('event', JSON.stringify(request))
+
     const response = await fetch(`/api/event/create`, {
         method: "POST",
-        body: JSON.stringify(request),
+        body: formData,
     })
 
     return response.json()

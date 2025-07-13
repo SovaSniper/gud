@@ -98,6 +98,15 @@ export class DatabaseRepository {
         return result.insertedId;
     }
 
+    async getEventById(id: string) {
+        const db = await this.context();
+        const events = db.collection<Event>("events");
+
+        const result = await events.findOne({ sharableId: id });
+
+        return result;
+    }
+
     async getPublicEventsByCreator(creatorId: string) {
         const db = await this.context();
         const events = db.collection<Event>("events");

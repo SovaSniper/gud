@@ -1,3 +1,5 @@
+"use client"
+
 import {
     Card,
     CardContent,
@@ -62,7 +64,7 @@ export function UserPage({ user }: UserPageProps) {
                                                 width="100%"
                                                 height="256"
                                                 loading="lazy"
-                                                src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyAbv-uq1vkLOYvQvxXB2VTwNjSFzEjlFuE&q=place_id:${event.location.id}&zoom=15`}>
+                                                src={`https://www.google.com/maps/embed/v1/place?key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY}&q=place_id:${event.location.id}&zoom=15`}>
                                             </iframe>
 
                                         </SheetHeader>

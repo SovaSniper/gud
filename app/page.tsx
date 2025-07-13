@@ -1,10 +1,10 @@
-import { ThemeButton } from "@/components/core/theme-button";
 import { PageHome } from "@/components/home";
+import { NavBar } from "@/components/navbar";
 
 export default function Home() {
   return (
     <>
-      <ThemeButton />
+      <NavBar />
       <PageHome />
     </>
   );

@@ -6,15 +6,10 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { CreateFormData } from "."
 import { Textarea } from "@/components/ui/textarea"
+import { CreateFormComponentProps } from "./constants"
 
-interface FormDescriptionProps extends React.HTMLAttributes<HTMLDivElement> {
-    form: UseFormReturn<CreateFormData>
-}
-
-export function FormDescription({ form }: FormDescriptionProps) {
+export function FormDescription({ form }: CreateFormComponentProps) {
     return (
         <FormField
             control={form.control}

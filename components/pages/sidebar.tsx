@@ -41,7 +41,7 @@ export function Sidebar() {
                 })}
             >
                 <CircleUserRound className="w-5 h-5" />
-                <span>Profile</span>
+                <span>Profile {session?.user.handler}</span>
             </Link>
 
 

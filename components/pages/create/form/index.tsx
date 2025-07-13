@@ -13,6 +13,7 @@ import { FormTime } from "./form-time";
 import { FormVisibility } from "./form-visibility";
 import { eventCreate } from "@/lib/api/event/create";
 import { useRouter } from "next/navigation";
+import { FormImage } from "./form-image";
 
 const formSchema = z.object({
     title: z.string().min(2, {
@@ -29,6 +30,17 @@ const formSchema = z.object({
         required_error: "Date of birth is required.",
         invalid_type_error: "Invalid date format.",
     }),
+    image: z
+        .instanceof(File)
+        .refine((file) => file.size > 0, {
+            message: "Image is required.",
+        })
+        .refine((file) => file.size < 5 * 1024 * 1024, {
+            message: "Max image size is 5MB.",
+        })
+        .refine((file) => ['image/jpeg', 'image/png'].includes(file.type), {
+            message: "Only JPEG or PNG allowed.",
+        }),
     // tags: z.array(z.string())
 })
 
@@ -50,19 +62,21 @@ export function CreateForm({ }: React.HTMLAttributes<HTMLDivElement>) {
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             setIsLoading(true)
-            const response = await eventCreate({
-                title: values.title,
-                description: values.description,
-                visibility: values.visibility,
-                location: values.place,
-                time: values.time,
-            });
+            const response = await eventCreate(
+                {
+                    title: values.title,
+                    description: values.description,
+                    visibility: values.visibility,
+                    location: values.place,
+                    time: values.time,
+                },
+                values.image);
 
             console.log(response)
 
-            if (response.id) {
-                router.push(`/e/${response.id}`)
-            }
+            // if (response.id) {
+            //     router.push(`/e/${response.id}`)
+            // }
         } catch {
 
         } finally {
@@ -77,6 +91,8 @@ export function CreateForm({ }: React.HTMLAttributes<HTMLDivElement>) {
                     <FormVisibility form={form} />
                     <FormTitle form={form} />
                     <FormDescription form={form} />
+                    <FormImage form={form} />
+
                     <FormTime form={form} />
 
                     <FormPlace form={form} />
