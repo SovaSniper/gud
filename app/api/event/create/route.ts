@@ -34,9 +34,6 @@ export async function POST(request: NextRequest): Promise<NextResponse<EventCrea
     }
 
     const data = await getServerSession(authOptions);
-    // console.log("session")
-    // console.log(data)
-
     if (!data?.user.id) {
         return NextResponse.json({ message: "Something went wrong. Id not found" }, { status: 500 })
     }

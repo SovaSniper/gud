@@ -1,4 +1,4 @@
-import { MongoClient, ServerApiVersion, WithId } from "mongodb";
+import { MongoClient, ObjectId, ServerApiVersion, WithId } from "mongodb";
 import { User } from "../models/user";
 import { Event } from "../models/event";
 
@@ -45,6 +45,17 @@ export class DatabaseRepository {
         });
 
         return result.insertedId;
+    }
+
+    async getUserById(id: string): Promise<WithId<User> | null> {
+        const db = await this.context();
+        const users = db.collection<User>("users");
+
+        const objectId = new ObjectId(id);
+        const result = await users.findOne({ _id: objectId });
+        if (!result) return null;
+
+        return result
     }
 
     async getUser(handler: string): Promise<WithId<User> | null> {
