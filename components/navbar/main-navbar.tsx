@@ -18,8 +18,8 @@ export function MainNavBar({ }: React.HTMLAttributes<HTMLDivElement>) {
                 <div className="text-xl font-semibold hidden sm:block">BBM</div>
             </div>
             <div className="flex items-center gap-2">
-                <Button onClick={() => router.push("/auth")}>Sign in</Button>
-                <Button onClick={() => router.push("/register")}>Register</Button>
+                <Button onClick={() => router.push("/login")}>Sign in</Button>
+                <Button onClick={() => router.push("/signup")}>Register</Button>
                 <ThemeButton />
             </div>
             {/* <div className="flex items-center gap-2">

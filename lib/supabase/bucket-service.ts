@@ -1,33 +1,22 @@
-import { cookies } from "next/headers";
-import { createClient } from "./server";
 import { SupabaseClient } from "@supabase/supabase-js";
 
 export class EventBucketService {
-    supabase?: SupabaseClient
+    supabase: SupabaseClient
 
-    async init() {
-        const cookieStore = cookies()
-        this.supabase = await createClient(cookieStore)
+    constructor(supabase: SupabaseClient) {
+        this.supabase = supabase;
     }
 
     async retrieve(id: string) {
-        if (!this.supabase) {
-            throw Error("Please Init service")
-        }
-
         const { data } = this.supabase
             .storage
             .from('events')
             .getPublicUrl(id)
 
-        return data;
+        return data.publicUrl;
     }
 
     async store(file: File, name?: string) {
-        if (!this.supabase) {
-            throw Error("Please Init service")
-        }
-
         if (!name) {
             name = file.name;
         }
@@ -38,6 +27,18 @@ export class EventBucketService {
             .upload(name, file, {
                 cacheControl: '3600',
                 upsert: false
+            })
+
+        return { image, error };
+    }
+
+    async update(file: File, id: string) {
+        const { data: image, error } = await this.supabase
+            .storage
+            .from('events')
+            .update(id, file, {
+                cacheControl: '3600',
+                upsert: true
             })
 
         return { image, error };

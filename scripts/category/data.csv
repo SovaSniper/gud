@@ -1,0 +1,5 @@
+id,name,consumable
+1,Tool,false
+2,Appliance,false
+4,Power Tool,false
+5,Industrial Tool,false

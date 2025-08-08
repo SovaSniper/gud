@@ -1,10 +1,10 @@
 "use client"
 
-import { Place } from "@/lib/models/event"
+import { GooglePlace } from "@/lib/google/places/api";
 import { MapPin } from "lucide-react"
 
 interface LocationTabProps extends React.HTMLAttributes<HTMLDivElement> {
-    place: Place
+    place: GooglePlace
 }
 
 export function LocationTab({ place }: LocationTabProps) {

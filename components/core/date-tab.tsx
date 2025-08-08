@@ -4,7 +4,6 @@ interface DateTabProps extends React.HTMLAttributes<HTMLDivElement> {
     date: Date
 }
 
-
 export function DateTab({ date }: DateTabProps) {
     const getMonthAbbr = (monthIndex: number): string => {
         const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",

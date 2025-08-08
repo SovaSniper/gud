@@ -1,0 +1,1 @@
+export const listingCategory = [{"id":1,"name":"Tool","consumable":false},{"id":2,"name":"Appliance","consumable":false},{"id":4,"name":"Power Tool","consumable":false},{"id":5,"name":"Industrial Tool","consumable":false}]
