@@ -38,11 +38,9 @@ export async function POST(request: NextRequest) {
 
   const dataValue = formData.get('data');
   const updatedData = typeof dataValue === 'string' ? dataValue : "";
-  console.log(updatedData)
   const data: UserUpdateRequest = JSON.parse(updatedData as string)
-  console.log(data)
 
-  if (data.location) {
+  if (data && data.location) {
     // Update the data in location
     const { data: locationData, error: locationError } = await supabase
       .from("location")
