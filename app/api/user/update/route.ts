@@ -39,29 +39,29 @@ export async function POST(request: NextRequest) {
   const dataValue = formData.get('data');
   const updatedData = typeof dataValue === 'string' ? dataValue : "";
   console.log(updatedData)
-  // const data: UserUpdateRequest = JSON.parse(updatedData as string)
-  // console.log(data)
+  const data: UserUpdateRequest = JSON.parse(updatedData as string)
+  console.log(data)
 
-  // if (data.location) {
-  //   // Update the data in location
-  //   const { data: locationData, error: locationError } = await supabase
-  //     .from("location")
-  //     .upsert({
-  //       data: data.location as unknown as Json,
-  //       placeId: data.location.id,
-  //     }, {
-  //       onConflict: "placeId", // conflict column must be unique
-  //     })
-  //     .select()
-  //     .single();
+  if (data.location) {
+    // Update the data in location
+    const { data: locationData, error: locationError } = await supabase
+      .from("location")
+      .upsert({
+        data: data.location as unknown as Json,
+        placeId: data.location.id,
+      }, {
+        onConflict: "placeId", // conflict column must be unique
+      })
+      .select()
+      .single();
 
-  //   if (locationError) {
-  //     console.log(locationError)
-  //     return ResponseError({ message: "Failed to upload" });
-  //   }
+    if (locationError) {
+      console.log(locationError)
+      return ResponseError({ message: "Failed to upload" });
+    }
 
-  //   userUpdate.locationId = locationData.id
-  // }
+    userUpdate.locationId = locationData.id
+  }
 
   if (Object.keys(userUpdate).length === 0) {
     return new Response("No update needed", { status: 500 });
