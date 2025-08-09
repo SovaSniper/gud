@@ -11,8 +11,11 @@ import { useState } from "react";
 import z from "zod";
 import { FormLastname } from "./lastname";
 import { onboard } from "@/lib/api/user/onboard";
+import { useRouter } from "next/navigation";
 
 export function OnboardingForm({ }: React.HTMLAttributes<HTMLDivElement>) {
+    const router = useRouter()
+
     const [isLoading, setIsLoading] = useState(false)
 
     const form: UseFormReturn<OnboardingFormData> = useForm<OnboardingFormData>({
@@ -27,11 +30,16 @@ export function OnboardingForm({ }: React.HTMLAttributes<HTMLDivElement>) {
         try {
             setIsLoading(true)
 
-            console.log(values)
-            onboard({
+            const response = await onboard({
                 firstname: values.firstname,
                 lastname: values.lastname,
             })
+
+            if (response.status) {
+                router.push("/home");
+            } else {
+                console.log("There was an error")
+            }
         } catch {
 
         } finally {
@@ -46,7 +54,7 @@ export function OnboardingForm({ }: React.HTMLAttributes<HTMLDivElement>) {
                     <FormFirstname form={form} />
                     <FormLastname form={form} />
 
-                    <Button type="submit" disabled={isLoading}>Submit</Button>
+                    <Button type="submit" disabled={isLoading}>Next</Button>
                 </form>
             </Form>
         </>

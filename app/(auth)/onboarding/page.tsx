@@ -1,4 +1,4 @@
-import { OnboardingPage } from "@/components/auth/onboarding";
+import { OnboardingSection } from "@/components/auth/onboarding";
 import { ONBOARDING_COOKIE_KEY } from "@/lib/supabase/utils/onboarding-cookie";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -13,8 +13,8 @@ export default async function Page() {
     }
 
     return (
-        <div className="h-[100vh] w-[100%]">
-            <OnboardingPage />
+        <div className="min-h-screen min-w-screen max-h-screen flex items-center justify-center">
+            <OnboardingSection />
         </div>
     );
 }

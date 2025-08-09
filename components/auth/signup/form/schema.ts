@@ -1,19 +1,18 @@
 import { UseFormReturn } from "react-hook-form"
 import z from "zod"
 
-export const REGISTER_FORM_HANDLER = "handler"
-export const REGISTER_FORM_EMAIL = "email"
-export const REGISTER_FORM_PASSWORD = "password"
-export const REGISTER_FORM_FIRSTNAME = "firstname"
-export const REGISTER_FORM_SURNAME = "surname"
+export const FORM_EMAIL = "email"
+export const FORM_PASSWORD = "password"
+export const FORM_TERMS_AND_POLICY = "terms"
 
 export const formSchema = z.object({
-    [REGISTER_FORM_EMAIL]: z.string().email({
+    [FORM_EMAIL]: z.string().email({
         message: "Please enter a valid email address.",
     }),
-    [REGISTER_FORM_PASSWORD]: z.string().min(6, {
+    [FORM_PASSWORD]: z.string().min(6, {
         message: "Password must be at least 6 characters.",
     }),
+    [FORM_TERMS_AND_POLICY]: z.boolean()
 })
 
 export type RegisterFormData = z.infer<typeof formSchema>;

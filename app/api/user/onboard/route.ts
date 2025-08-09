@@ -3,7 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { ONBOARDING_COOKIE_KEY } from "@/lib/supabase/utils/onboarding-cookie";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
     const { firstname, lastname }: UserOnboardRequest = await request.json()
@@ -40,5 +40,5 @@ export async function POST(request: NextRequest) {
         maxAge: 60 * 60 * 24 * 7, // 7 days
     })
 
-    redirect("/home")
+    return NextResponse.json({ status: true })
 }

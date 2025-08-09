@@ -16,19 +16,17 @@ export function FormLicense({ form }: CreateFormProps) {
             control={form.control}
             name={FORM_LICENSE_REQUIRED}
             render={({ field }) => (
-                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                <FormItem>
                     <FormControl>
-                        <Checkbox
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-
-                        />
+                        <div className="flex items-center gap-2">
+                            <Checkbox
+                                className="m-0"
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                            />
+                            <p>Does this need license</p>
+                        </div>
                     </FormControl>
-                    <div className="space-y-1 leading-none">
-                        <FormLabel>Use different settings for my mobile devices</FormLabel>
-                        <FormDescription>You can manage your mobile notifications in the mobile settings page.</FormDescription>
-                        <FormMessage />
-                    </div>
                 </FormItem>
             )}
         />

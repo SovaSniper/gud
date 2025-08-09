@@ -7,13 +7,13 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "test": "vitest",
     "db:gen": "drizzle-kit pull && rm -rf ./lib/database/drizzle/meta",
     "db:gen:supabase": "npx supabase gen types typescript --project-id fijgkthejagpqzwlyziw --schema public > ./lib/database/supabase.ts",
     "db:ts:gen:category": "tsx ./scripts/category/index.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
-    "@next-auth/mongodb-adapter": "^1.1.3",
     "@radix-ui/react-avatar": "^1.1.10",
     "@radix-ui/react-checkbox": "^1.3.2",
     "@radix-ui/react-collapsible": "^1.1.11",
@@ -60,6 +60,8 @@
     "eslint-config-next": "15.3.1",
     "tailwindcss": "^4",
     "tw-animate-css": "^1.3.4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^3.2.4"
   }
 }

@@ -2,7 +2,7 @@ import {
     Card,
     CardContent,
 } from "@/components/ui/card"
-import { CreateForm } from "./item"
+import { CreateItemForm } from "./item"
 import { UserItems } from "../user-items"
 import { Separator } from "@/components/core/seperator"
 import { useEffect, useState } from "react"
@@ -15,11 +15,11 @@ enum PageCreateSteps {
     LISTING_CREATION = 1,
 }
 
-export interface PageCreateProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface CreateFormProps extends React.HTMLAttributes<HTMLDivElement> {
     items: ItemsEntity[]
 }
 
-export function CardDemo({ items }: PageCreateProps) {
+export function CreateForm({ items }: CreateFormProps) {
     const { itemId } = useCreateListing()
 
     const [step, setStep] = useState(PageCreateSteps.ITEMS_CREATION)
@@ -37,7 +37,7 @@ export function CardDemo({ items }: PageCreateProps) {
                     <>
                         <h2>Create your items to list</h2>
                         <Separator text="or" />
-                        <CreateForm />
+                        <CreateItemForm />
                     </>
                 )}
                 {step === PageCreateSteps.LISTING_CREATION && (

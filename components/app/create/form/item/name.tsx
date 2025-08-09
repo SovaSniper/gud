@@ -6,7 +6,7 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+import { Input } from "@/components/core/input"
 import { CreateFormProps, FORM_NAME } from "./schema"
 
 export function FormName({ form }: CreateFormProps) {
@@ -19,7 +19,7 @@ export function FormName({ form }: CreateFormProps) {
                     <FormControl>
                         <Input
                             className="!border-none p-0 !text-2xl !font-semibold"
-                            placeholder="Event Name"
+                            label="Items or Service Name"
                             {...field} />
                     </FormControl>
                     <FormMessage />

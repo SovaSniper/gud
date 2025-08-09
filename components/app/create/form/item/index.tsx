@@ -15,7 +15,7 @@ import { listingCreate } from "@/lib/api/listing/create";
 import { FormLicense } from "./license";
 import { useCreateListing } from "../../provider";
 
-export function CreateForm({ }: React.HTMLAttributes<HTMLDivElement>) {
+export function CreateItemForm({ }: React.HTMLAttributes<HTMLDivElement>) {
     const { setItemId, userItems, addUserItems } = useCreateListing()
 
     const [isLoading, setIsLoading] = useState(false)

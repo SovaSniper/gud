@@ -4,10 +4,10 @@ import {
     FormItem,
     FormMessage,
 } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
 import { FORM_EMAIL, LoginFormProps } from "./schema"
+import { Input } from "@/components/core/input"
 
-export function LoginFormEmail({ form }: LoginFormProps) {
+export function FormEmail({ form }: LoginFormProps) {
     return (
         <FormField
             control={form.control}
@@ -15,7 +15,7 @@ export function LoginFormEmail({ form }: LoginFormProps) {
             render={({ field }) => (
                 <FormItem>
                     <FormControl>
-                        <Input {...field} />
+                        <Input {...field} label={FORM_EMAIL} />
                     </FormControl>
                     <FormMessage />
                 </FormItem>

@@ -4,7 +4,7 @@ import {
     FormItem,
     FormMessage,
 } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+import { Input } from "@/components/core/input"
 import { FORM_LASTNAME, OnboardingFormProps } from "./schema"
 
 export function FormLastname({ form }: OnboardingFormProps) {
@@ -15,9 +15,7 @@ export function FormLastname({ form }: OnboardingFormProps) {
             render={({ field }) => (
                 <FormItem>
                     <FormControl>
-                        <Input {...field}
-                            placeholder="Doe"
-                        />
+                        <Input {...field} label={FORM_LASTNAME} />
                     </FormControl>
                     <FormMessage />
                 </FormItem>

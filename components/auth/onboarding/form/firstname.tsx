@@ -4,7 +4,7 @@ import {
     FormItem,
     FormMessage,
 } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+import { Input } from "@/components/core/input"
 import { FORM_FIRSTNAME, OnboardingFormProps } from "./schema"
 
 export function FormFirstname({ form }: OnboardingFormProps) {
@@ -15,9 +15,7 @@ export function FormFirstname({ form }: OnboardingFormProps) {
             render={({ field }) => (
                 <FormItem>
                     <FormControl>
-                        <Input {...field}
-                            placeholder="John"
-                        />
+                        <Input {...field} label={FORM_FIRSTNAME} />
                     </FormControl>
                     <FormMessage />
                 </FormItem>

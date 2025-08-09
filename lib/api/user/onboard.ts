@@ -4,7 +4,7 @@ export interface UserOnboardRequest {
 }
 
 export interface UserOnboardResponse {
-    handler: string;
+    status: string;
 }
 
 export const onboard = async (request: UserOnboardRequest): Promise<UserOnboardResponse> => {

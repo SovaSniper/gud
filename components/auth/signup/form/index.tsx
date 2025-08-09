@@ -8,15 +8,22 @@ import {
     Form,
 } from "@/components/ui/form"
 import { SignUpFormEmail } from "./email"
-import { useState } from "react"
+import { Dispatch, SetStateAction, useState } from "react"
 import {
     formSchema,
     RegisterFormData
 } from "./schema"
 import { SignupFormPassword } from "./password"
 import { signup } from "../server"
+import { redirect } from "next/navigation"
+import { SignUpActions } from "../enum"
+import { FormTermsPolicy } from "./terms-policy"
 
-export function SignUpForm() {
+interface SignUpFormProps extends React.HTMLAttributes<HTMLDivElement> {
+    callback: (...args: any[]) => any;
+}
+
+export function SignUpForm({ callback }: SignUpFormProps) {
     const [isLoading, setIsLoading] = useState(false)
 
     const form: UseFormReturn<RegisterFormData> = useForm<RegisterFormData>({
@@ -34,6 +41,14 @@ export function SignUpForm() {
                 email: values.email,
                 password: values.password,
             })
+
+            console.log(result)
+
+            if (result === SignUpActions.DEFAULT) {
+                redirect("/")
+            }
+
+            callback(result)
         } catch {
 
         } finally {
@@ -48,6 +63,7 @@ export function SignUpForm() {
                     <SignUpFormEmail form={form} />
                     <SignupFormPassword form={form} />
 
+                    <FormTermsPolicy form={form} />
                     <Button type="submit" disabled={isLoading}>Submit</Button>
                 </form>
             </Form>

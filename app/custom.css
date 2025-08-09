@@ -1,0 +1,12 @@
+:root {
+  --color-grayscale-000: #FFFFFF;
+  --color-grayscale-025: #FAFAFA;
+  --color-grayscale-050: #F5F5F5;
+  --color-grayscale-100: #EDEDED;
+  --color-grayscale-200: #DBDDE0;
+  --color-grayscale-250: #BCC1C9;
+  --color-grayscale-300: #6A7380;
+  --color-grayscale-325: #575C66;
+  --color-grayscale-350: #313235;
+  --color-grayscale-veil: rgba(255, 255, 255, 0.8);
+}

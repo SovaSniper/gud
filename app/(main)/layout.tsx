@@ -11,7 +11,6 @@ import { ErrorPage } from "@/components/core/error-page";
 import { GooglePlace } from "@/lib/google/places/api";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 
-import "../globals.css";
 import { UserEntity } from "@/lib/database/user";
 import { EventBucketService } from "@/lib/supabase/bucket-service";
 
@@ -19,7 +18,6 @@ export const metadata: Metadata = {
   title: "BBM",
   description: "BBM Event",
 };
-
 
 export default async function Layout({
   children,
@@ -50,9 +48,12 @@ export default async function Layout({
       *,
         location (*)
     `)
+    .eq('uuid', user.id)
     .single()
 
+
   if (userError) {
+    console.log(userError)
     return <ErrorPage text="Error getting profile" />
   }
 

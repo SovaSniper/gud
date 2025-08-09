@@ -1,16 +1,14 @@
 "use server"
 
-import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
-
 import { createClient } from '@/lib/supabase/server'
+import { SignUpActions } from './enum'
 
 interface SignUp {
     email: string,
     password: string,
 }
 
-export async function signup(request: SignUp) {
+export async function signup(request: SignUp): Promise<SignUpActions> {
     const supabase = await createClient()
 
     const data = request
@@ -20,13 +18,11 @@ export async function signup(request: SignUp) {
     if (error) {
         console.log("error")
         console.log(error)
-        redirect('/error')
+        return SignUpActions.ERROR
     }
 
-    if (!user.session) {
-        redirect('/confirm')
-    }
+    if (!user.session)
+        return SignUpActions.CONFIRM;
 
-    revalidatePath('/', 'layout')
-    redirect('/')
+    return SignUpActions.DEFAULT;
 }

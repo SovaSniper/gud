@@ -6,11 +6,11 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Form } from "@/components/ui/form";
 import { login } from "../server";
-import { LoginFormEmail } from "./email";
-import { LoginFormPassword } from "./password";
+import { FormEmail } from "./email";
+import { FormPassword } from "./password";
 import { formSchema, LoginFormData } from "./schema";
 
-export function LoginSection({ }: React.HTMLAttributes<HTMLDivElement>) {
+export function LogInForm({ }: React.HTMLAttributes<HTMLDivElement>) {
     const [isLoading, setIsLoading] = useState(false)
 
     const form: UseFormReturn<LoginFormData> = useForm<LoginFormData>({
@@ -21,37 +21,18 @@ export function LoginSection({ }: React.HTMLAttributes<HTMLDivElement>) {
         },
     })
 
-    // const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    //     try {
-    //         setIsLoading(true)
-    //         // const result = await signIn("credentials", {
-    //         //     email: values.email,
-    //         //     password: values.password,
-    //         //     redirect: false,
-    //         // });
-
-    //         // if (result?.ok && !result?.error) {
-    //         //     console.log("Logging in")
-    //         //     router.push("/home")
-    //         // } else {
-    //         //     form.setError("password", { message: result?.error || "Please try again later" })
-    //         // }
-
-    //     } catch (e: any) {
-
-    //     } finally {
-    //         setIsLoading(false)
-    //     }
-    // }
+    const onFormAction = (formData: FormData) => {
+        setIsLoading(true)
+        login(formData)
+    }
 
     return (
         <Form {...form}>
             <form
-                // onSubmit={form.handleSubmit(onSubmit)}
                 className="grid space-y-2">
-                <LoginFormEmail form={form} />
-                <LoginFormPassword form={form} />
-                <Button type="submit" disabled={isLoading} formAction={login}>Git Log In</Button>
+                <FormEmail form={form} />
+                <FormPassword form={form} />
+                <Button type="submit" disabled={isLoading} formAction={onFormAction}>Git Log In</Button>
             </form>
         </Form>
     )
